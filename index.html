@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Digital Clock</title>
+  <style>
+    :root {
+  
+      --dark-bg: #000000; /* Solid black background for dark theme */
+      --light-text: #333;
+      --dark-text: #f1f1f1;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: var(--light-bg);
+      transition: background 0.8s ease, color 0.8s ease;
+      color: var(--light-text);
+      flex-direction: column;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    .clock {
+      font-size: 4rem;
+      letter-spacing: 2px;
+      padding: 20px 40px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      transition: background 0.5s ease, color 0.5s ease, transform 0.5s ease;
+    }
+
+    .theme-toggle {
+      margin-top: 20px;
+      padding: 10px 25px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.05);
+    }
+
+    body.dark .clock {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--dark-text);
+    }
+
+    body.dark .theme-toggle {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    body.dark {
+      background: var(--dark-bg); /* Black background for dark theme */
+      color: var(--dark-text);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Digital Clock</h1>
+    <div id="clock" class="clock">00:00:00 AM</div>
+    <button id="themeToggleBtn" class="theme-toggle">🌙 Dark</button>
+  </div>
+
+  <script>
+    const clockEl = document.getElementById("clock");
+    const toggleBtn = document.getElementById("themeToggleBtn");
+
+    function pad(num) {
+      return num < 10 ? "0" + num : num;
+    }
+
+    function updateClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      const ampm = hours >= 12 ? "PM" : "AM";
+
+      hours = hours % 12 || 12;
+
+      const timeString = `${pad(hours)}:${pad(minutes)}:${pad(seconds)} ${ampm}`;
+      clockEl.textContent = timeString;
+    }
+
+    function toggleTheme() {
+      const isDark = document.body.classList.toggle("dark");
+      toggleBtn.textContent = isDark ? "🌞 Light" : "🌙 Dark";
+    }
+
+    toggleBtn.addEventListener("click", toggleTheme);
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+</body>
+</html>
